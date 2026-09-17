@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Övning 111 (Variant B) - Balans- och resultaträkning</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --help-color: #8e44ad;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .instructions {
+            background-color: #eef7fc;
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f1f3f5;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .row-label {
+            font-weight: 500;
+        }
+
+        .letter {
+            font-weight: bold;
+            color: #c0392b;
+            display: inline-block;
+            width: 18px;
+        }
+
+        .num-val {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 6px 8px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        input.correct {
+            border-color: var(--success-color);
+            background-color: #e8f8f0;
+            color: #27ae60;
+        }
+
+        input.incorrect {
+            border-color: var(--error-color);
+            background-color: #fdeaea;
+            color: #c0392b;
+        }
+
+        .hint {
+            display: none;
+            font-size: 0.82rem;
+            color: var(--help-color);
+            margin-top: 4px;
+            font-weight: bold;
+            font-style: normal;
+            background-color: #f4ecf7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #d7bde2;
+        }
+
+        .hint.visible {
+            display: inline-block;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-check {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-check:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-help {
+            background-color: var(--help-color);
+            color: white;
+        }
+
+        .btn-help:hover {
+            background-color: #7d3c98;
+        }
+
+        .btn-reset {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-show {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-show:hover {
+            background-color: #d35400;
+        }
+
+        .result-message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        .result-message.success {
+            color: var(--success-color);
+        }
+
+        .result-message.error {
+            color: var(--error-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Övning 111 (Variant B) - Balans- och resultaträkning</h1>
+    
+    <div class="instructions">
+        <strong>Instruktion:</strong> Din uppgift är att beräkna de utelämnade beloppen. Lös uppgiften från år 05 till år 07. <em>(Alla belopp är i tusentals kronor)</em>
+    </div>
+
+    <form id="exercise-form" onsubmit="return false;">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rad</th>
+                        <th>År - 04</th>
+                        <th>År - 05</th>
+                        <th>År - 06</th>
+                        <th>År - 07</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-label">Tillgångar den 31/12</td>
+                        <td><span class="letter">A</span> <span class="num-val">8000</span></td>
+                        <td><span class="letter">D</span> <span class="num-val">9000</span></td>
+                        <td>
+                            <span class="letter">J</span>
+                            <input type="number" id="input-J" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-J">Formel: L + K</div>
+                        </td>
+                        <td><span class="letter">Q</span> <span class="num-val">10000</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Eget kapital den 31/12</td>
+                        <td><span class="letter">B</span> <span class="num-val">3000</span></td>
+                        <td>
+                            <span class="letter">E</span>
+                            <input type="number" id="input-E" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-E">Formel: B + I</div>
+                        </td>
+                        <td>
+                            <span class="letter">K</span>
+                            <input type="number" id="input-K" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-K">Formel: E + O - P</div>
+                        </td>
+                        <td><span class="letter">R</span> <span class="num-val">4500</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Skulder den 31/12</td>
+                        <td><span class="letter">C</span> <span class="num-val">5000</span></td>
+                        <td>
+                            <span class="letter">F</span>
+                            <input type="number" id="input-F" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-F">Formel: D - E</div>
+                        </td>
+                        <td><span class="letter">L</span> <span class="num-val">6500</span></td>
+                        <td><span class="letter">S</span> <span class="num-val">5500</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Intäkter</td>
+                        <td></td>
+                        <td><span class="letter">G</span> <span class="num-val">12000</span></td>
+                        <td><span class="letter">M</span> <span class="num-val">13000</span></td>
+                        <td><span class="letter">T</span> <span class="num-val">12500</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Kostnader <small>(använd minustecken)</small></td>
+                        <td></td>
+                        <td><span class="letter">H</span> <span class="num-val">-11900</span></td>
+                        <td><span class="letter">N</span> <span class="num-val">-12700</span></td>
+                        <td>
+                            <span class="letter">Y</span>
+                            <input type="number" id="input-Y" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-Y">Formel: T - U</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Årets resultat</td>
+                        <td></td>
+                        <td><span class="letter">I</span> <span class="num-val">100</span></td>
+                        <td><span class="letter">O</span> <span class="num-val">300</span></td>
+                        <td>
+                            <span class="letter">U</span>
+                            <input type="number" id="input-U" placeholder="Fyll i belopp">
+                            <div class="hint" id="hint-U">Formel: R - K - V + X</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Utdelning</td>
+                        <td></td>
+                        <td><span class="num-val">0</span></td>
+                        <td><span class="letter">P</span> <span class="num-val">400</span></td>
+                        <td><span class="letter">V</span> <span class="num-val">0</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Nyemission</td>
+                        <td></td>
+                        <td><span class="num-val">0</span></td>
+                        <td><span class="num-val">0</span></td>
+                        <td><span class="letter">X</span> <span class="num-val">250</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" class="btn-check" onclick="checkAnswers()">Rätta alla svar</button>
+            <button type="button" class="btn-help" onclick="toggleHelp()">Visa/Dölj formelhjälp</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">Rensa</button>
+            <button type="button" class="btn-show" onclick="showAnswers()">Visa facit</button>
+        </div>
+
+        <div id="result-message" class="result-message"></div>
+    </form>
+</div>
+
+<script>
+    // Fasta värden för Variant B
+    const values = {
+        A: 8000, B: 3000, C: 5000,
+        D: 9000, G: 12000, H: -11900, I: 100,
+        L: 6500, M: 13000, N: -12700, O: 300, P: 400,
+        Q: 10000, R: 4500, S: 5500, T: 12500, V: 0, X: 250
+    };
+
+    // Beräkna de korrekta svarena utifrån variant B
+    function getCorrectAnswers() {
+        const E = values.B + values.I;                // 3000 + 100 = 3100
+        const F = values.D - E;                       // 9000 - 3100 = 5900
+        const K = E + values.O - values.P;            // 3100 + 300 - 400 = 3000
+        const J = values.L + K;                       // 6500 + 3000 = 9500
+        const U = values.R - K - values.V + values.X; // 4500 - 3000 - 0 + 250 = 1750
+        const Y = values.T - U;                       // 12500 - 1750 = 10750
+
+        return { E, F, K, J, U, Y };
+    }
+
+    function toggleHelp() {
+        const hints = document.querySelectorAll('.hint');
+        hints.forEach(hint => {
+            hint.classList.toggle('visible');
+        });
+    }
+
+    function checkAnswers() {
+        const correct = getCorrectAnswers();
+        const fields = ['E', 'F', 'J', 'K', 'Y', 'U'];
+        let correctCount = 0;
+        let totalCount = fields.length;
+
+        fields.forEach(letter => {
+            const input = document.getElementById(`input-${letter}`);
+            const val = parseFloat(input.value);
+
+            input.classList.remove('correct', 'incorrect');
+
+            if (!isNaN(val) && val === correct[letter]) {
+                input.classList.add('correct');
+                correctCount++;
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+
+        const msgDiv = document.getElementById('result-message');
+        if (correctCount === totalCount) {
+            msgDiv.textContent = 'Bra jobbat! Alla svar är rätt!';
+            msgDiv.className = 'result-message success';
+        } else {
+            msgDiv.textContent = `Du har ${correctCount} av ${totalCount} rätt. Försök igen!`;
+            msgDiv.className = 'result-message error';
+        }
+    }
+
+    function resetForm() {
+        const fields = ['E', 'F', 'J', 'K', 'Y', 'U'];
+        fields.forEach(letter => {
+            const input = document.getElementById(`input-${letter}`);
+            input.value = '';
+            input.classList.remove('correct', 'incorrect');
+        });
+
+        const hints = document.querySelectorAll('.hint');
+        hints.forEach(hint => hint.classList.remove('visible'));
+
+        const msgDiv = document.getElementById('result-message');
+        msgDiv.textContent = '';
+        msgDiv.className = 'result-message';
+    }
+
+    function showAnswers() {
+        const correct = getCorrectAnswers();
+        const fields = ['E', 'F', 'J', 'K', 'Y', 'U'];
+
+        fields.forEach(letter => {
+            const input = document.getElementById(`input-${letter}`);
+            input.value = correct[letter];
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        });
+
+        const msgDiv = document.getElementById('result-message');
+        msgDiv.textContent = 'Facit har fyllts i.';
+        msgDiv.className = 'result-message success';
+    }
+</script>
+
+</body>
+</html>

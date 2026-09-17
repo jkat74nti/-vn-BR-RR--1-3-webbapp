@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Övning nr 2121 (Variant C) - Kassaflöde, Resultat- och Balansräkning</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --help-color: #8e44ad;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-top: 15px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+        }
+
+        .instructions {
+            background-color: #eef7fc;
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f1f3f5;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .letter {
+            font-weight: bold;
+            color: #c0392b;
+            display: inline-block;
+            width: 18px;
+        }
+
+        .num-val {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 5px 7px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        input.correct {
+            border-color: var(--success-color);
+            background-color: #e8f8f0;
+            color: #27ae60;
+        }
+
+        input.incorrect {
+            border-color: var(--error-color);
+            background-color: #fdeaea;
+            color: #c0392b;
+        }
+
+        .hint {
+            display: none;
+            font-size: 0.78rem;
+            color: var(--help-color);
+            margin-top: 3px;
+            font-weight: bold;
+            background-color: #f4ecf7;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px solid #d7bde2;
+        }
+
+        .hint.visible {
+            display: inline-block;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-check { background-color: var(--accent-color); color: white; }
+        .btn-check:hover { background-color: #2980b9; }
+
+        .btn-help { background-color: var(--help-color); color: white; }
+        .btn-help:hover { background-color: #7d3c98; }
+
+        .btn-reset { background-color: #95a5a6; color: white; }
+        .btn-reset:hover { background-color: #7f8c8d; }
+
+        .btn-show { background-color: #f39c12; color: white; }
+        .btn-show:hover { background-color: #d35400; }
+
+        .result-message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+        .result-message.success { color: var(--success-color); }
+        .result-message.error { color: var(--error-color); }
+
+        .info-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .info-box ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Övning nr 2121 (Siffervariant C)</h1>
+    
+    <div class="instructions">
+        En förteckning över företagets betalningar under det aktuella året och några kompletterande upplysningar.
+    </div>
+
+    <!-- Betalningar -->
+    <div class="grid-2">
+        <div>
+            <div class="section-title">Inbetalningar</div>
+            <table>
+                <tr>
+                    <td><span class="letter">A</span> från kunder</td>
+                    <td class="num-val">12200</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">B</span> från banken för nya lån</td>
+                    <td class="num-val">1900</td>
+                </tr>
+                <tr>
+                    <td><strong><span class="letter">C</span> Summa</strong></td>
+                    <td class="num-val"><strong>14100</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <div class="section-title">Utbetalningar</div>
+            <table>
+                <tr>
+                    <td><span class="letter">H</span> till leverantörer och anställda</td>
+                    <td class="num-val">-10300</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">I</span> till banken för räntor</td>
+                    <td class="num-val">-420</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">J</span> till banken för amorteringar</td>
+                    <td class="num-val">-610</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">K</span> till leverantören av investeringar</td>
+                    <td class="num-val">-2000</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">L</span> till staten för skatt</td>
+                    <td class="num-val">-100</td>
+                </tr>
+                <tr>
+                    <td><span class="letter">M</span> till ägarna som utdelning</td>
+                    <td class="num-val">-340</td>
+                </tr>
+                <tr>
+                    <td><strong><span class="letter">N</span> Summa</strong></td>
+                    <td class="num-val"><strong>-13770</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Kompletterande upplysningar -->
+    <div class="info-box">
+        <strong>Kompletterande upplysningar:</strong>
+        <ul>
+            <li><span class="letter">D</span> Under året har kundfordringarna ökat med 160</li>
+            <li><span class="letter">E</span> Leverantörsskulderna vid årets slut uppgår till 1050</li>
+            <li><span class="letter">F</span> Årets avskrivningar på anläggningstillgångar är 820</li>
+            <li><span class="letter">G</span> Ange kostnader som negativa tal</li>
+        </ul>
+    </div>
+
+    <!-- Resultat- och Balansräkning -->
+    <form id="exercise-form" onsubmit="return false;">
+        <div class="grid-2">
+            <!-- Resultaträkning -->
+            <div>
+                <div class="section-title">Resultaträkning</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Post</th>
+                            <th>Tecken</th>
+                            <th>Belopp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Försäljningsintäkter</td>
+                            <td>+</td>
+                            <td>
+                                <input type="number" id="input-res-1" placeholder="Belopp">
+                                <div class="hint" id="hint-res-1">Formel: A + D</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rörelsekostnader</td>
+                            <td>-</td>
+                            <td>
+                                <input type="number" id="input-res-2" placeholder="Belopp">
+                                <div class="hint" id="hint-res-2">Formel: H - (E - U)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Avskrivningar</td>
+                            <td>-</td>
+                            <td>
+                                <input type="number" id="input-res-3" placeholder="Belopp">
+                                <div class="hint" id="hint-res-3">Formel: F</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Räntekostnader</td>
+                            <td>-</td>
+                            <td>
+                                <input type="number" id="input-res-4" placeholder="Belopp">
+                                <div class="hint" id="hint-res-4">Formel: I</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Skattekostnad</td>
+                            <td>-</td>
+                            <td>
+                                <input type="number" id="input-res-5" placeholder="Belopp">
+                                <div class="hint" id="hint-res-5">Formel: L</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Årets resultat</strong></td>
+                            <td>=</td>
+                            <td>
+                                <input type="number" id="input-res-6" placeholder="Belopp">
+                                <div class="hint" id="hint-res-6">Summa av alla rader i resultaträkningen</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Balansräkningar -->
+            <div>
+                <div class="section-title">Balansräkningar</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Post</th>
+                            <th>31/12</th>
+                            <th>1/1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Anläggningstillgångar</td>
+                            <td>
+                                <input type="number" id="input-bal-1" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-1">Formel: O + K - F</div>
+                            </td>
+                            <td><span class="letter">O</span> <span class="num-val">5000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Kundfordringar</td>
+                            <td>
+                                <input type="number" id="input-bal-2" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-2">Formel: P + D</div>
+                            </td>
+                            <td><span class="letter">P</span> <span class="num-val">3000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Kassa och bank</td>
+                            <td>
+                                <input type="number" id="input-bal-3" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-3">Formel: Q + C - N</div>
+                            </td>
+                            <td><span class="letter">Q</span> <span class="num-val">800</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Summa tillgångar</strong></td>
+                            <td>
+                                <input type="number" id="input-bal-sum1" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-sum1">Summa av tillgångar 31/12</div>
+                            </td>
+                            <td><span class="letter">R</span> <span class="num-val">8800</span></td>
+                        </tr>
+                        <tr><td colspan="3" style="background:#f8f9fa;"></td></tr>
+                        <tr>
+                            <td>Eget kapital</td>
+                            <td>
+                                <input type="number" id="input-bal-4" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-4">Formel: S + Årets resultat - M</div>
+                            </td>
+                            <td><span class="letter">S</span> <span class="num-val">3000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Banklån</td>
+                            <td>
+                                <input type="number" id="input-bal-5" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-5">Formel: T + B - J</div>
+                            </td>
+                            <td><span class="letter">T</span> <span class="num-val">4800</span></td>
+                        </tr>
+                        <tr>
+                            <td>Leverantörsskulder</td>
+                            <td>
+                                <input type="number" id="input-bal-6" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-6">Formel: E</div>
+                            </td>
+                            <td><span class="letter">U</span> <span class="num-val">1000</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Summa eget kapital och skulder</strong></td>
+                            <td>
+                                <input type="number" id="input-bal-sum2" placeholder="Belopp">
+                                <div class="hint" id="hint-bal-sum2">Summa av EK och skulder 31/12</div>
+                            </td>
+                            <td><span class="letter">V</span> <span class="num-val">8800</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" class="btn-check" onclick="checkAnswers()">Rätta alla svar</button>
+            <button type="button" class="btn-help" onclick="toggleHelp()">Visa/Dölj formelhjälp</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">Rensa</button>
+            <button type="button" class="btn-show" onclick="showAnswers()">Visa facit</button>
+        </div>
+
+        <div id="result-message" class="result-message"></div>
+    </form>
+</div>
+
+<script>
+    // Fasta basvärden från Variant C
+    const A = 12200, B = 1900, C = 14100;
+    const H = -10300, I = -420, J = -610, K = -2000, L = -100, M = -340, N = -13770;
+    const D = 160, E = 1050, F = 820;
+    const O = 5000, P = 3000, Q = 800, R = 8800;
+    const S = 3000, T = 4800, U = 1000, V = 8800;
+
+    function getCorrectAnswers() {
+        // Resultaträkning (Kostnader hålls som negativa tal enligt G)
+        const res1 = A + D;                             // Försäljningsintäkter = 12200 + 160 = 12360
+        const res2 = H - (E - U);                       // Rörelsekostnader = -10300 - (1050 - 1000) = -10350
+        const res3 = -F;                                // Avskrivningar = -820
+        const res4 = I;                                 // Räntekostnader = -420
+        const res5 = L;                                 // Skattekostnad = -100
+        const res6 = res1 + res2 + res3 + res4 + res5;  // Årets resultat = 12360 - 10350 - 820 - 420 - 100 = 670
+
+        // Balansräkning 31/12
+        const bal1 = O + Math.abs(K) - F;               // Anläggningstillgångar = 5000 + 2000 - 820 = 6180
+        const bal2 = P + D;                             // Kundfordringar = 3000 + 160 = 3160
+        const bal3 = Q + C + N;                         // Kassa och bank = 800 + 14100 + (-13770) = 1130
+        const balSum1 = bal1 + bal2 + bal3;             // Summa tillgångar = 6180 + 3160 + 1130 = 10470
+
+        const bal4 = S + res6 - Math.abs(M);            // Eget kapital = 3000 + 670 - 340 = 3330
+        const bal5 = T + B - Math.abs(J);               // Banklån = 4800 + 1900 - 610 = 6090
+        const bal6 = E;                                 // Leverantörsskulder = 1050
+        const balSum2 = bal4 + bal5 + bal6;             // Summa EK & Skulder = 3330 + 6090 + 1050 = 10470
+
+        return {
+            'res-1': res1,
+            'res-2': res2,
+            'res-3': res3,
+            'res-4': res4,
+            'res-5': res5,
+            'res-6': res6,
+            'bal-1': bal1,
+            'bal-2': bal2,
+            'bal-3': bal3,
+            'bal-sum1': balSum1,
+            'bal-4': bal4,
+            'bal-5': bal5,
+            'bal-6': bal6,
+            'bal-sum2': balSum2
+        };
+    }
+
+    const fieldIds = [
+        'res-1', 'res-2', 'res-3', 'res-4', 'res-5', 'res-6',
+        'bal-1', 'bal-2', 'bal-3', 'bal-sum1',
+        'bal-4', 'bal-5', 'bal-6', 'bal-sum2'
+    ];
+
+    function toggleHelp() {
+        document.querySelectorAll('.hint').forEach(hint => hint.classList.toggle('visible'));
+    }
+
+    function checkAnswers() {
+        const correct = getCorrectAnswers();
+        let correctCount = 0;
+
+        fieldIds.forEach(id => {
+            const input = document.getElementById(`input-${id}`);
+            const val = parseFloat(input.value);
+
+            input.classList.remove('correct', 'incorrect');
+
+            if (!isNaN(val) && val === correct[id]) {
+                input.classList.add('correct');
+                correctCount++;
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+
+        const msgDiv = document.getElementById('result-message');
+        if (correctCount === fieldIds.length) {
+            msgDiv.textContent = 'Bra jobbat! Alla svar är rätt!';
+            msgDiv.className = 'result-message success';
+        } else {
+            msgDiv.textContent = `Du har ${correctCount} av ${fieldIds.length} rätt. Försök igen!`;
+            msgDiv.className = 'result-message error';
+        }
+    }
+
+    function resetForm() {
+        fieldIds.forEach(id => {
+            const input = document.getElementById(`input-${id}`);
+            input.value = '';
+            input.classList.remove('correct', 'incorrect');
+        });
+        document.querySelectorAll('.hint').forEach(hint => hint.classList.remove('visible'));
+        const msgDiv = document.getElementById('result-message');
+        msgDiv.textContent = '';
+        msgDiv.className = 'result-message';
+    }
+
+    function showAnswers() {
+        const correct = getCorrectAnswers();
+        fieldIds.forEach(id => {
+            const input = document.getElementById(`input-${id}`);
+            input.value = correct[id];
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        });
+        const msgDiv = document.getElementById('result-message');
+        msgDiv.textContent = 'Facit har fyllts i.';
+        msgDiv.className = 'result-message success';
+    }
+</script>
+
+</body>
+</html>
